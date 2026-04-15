@@ -35,8 +35,8 @@ public class GameWeekService : IGameWeekService
             TournamentId = request.TournamentId,
             WeekNumber = request.WeekNumber,
             Name = request.Name,
-            StartDate = request.StartDate,
-            EndDate = request.EndDate
+            StartDate = DateTime.SpecifyKind(request.StartDate, DateTimeKind.Utc),
+            EndDate = DateTime.SpecifyKind(request.EndDate, DateTimeKind.Utc)
         };
 
         await _repo.AddAsync(gw);
@@ -48,8 +48,8 @@ public class GameWeekService : IGameWeekService
         var gw = await _repo.GetByIdAsync(id) ?? throw new KeyNotFoundException("Game week not found.");
         gw.WeekNumber = request.WeekNumber;
         gw.Name = request.Name;
-        gw.StartDate = request.StartDate;
-        gw.EndDate = request.EndDate;
+        gw.StartDate = DateTime.SpecifyKind(request.StartDate, DateTimeKind.Utc);
+        gw.EndDate = DateTime.SpecifyKind(request.EndDate, DateTimeKind.Utc);
         await _repo.UpdateAsync(gw);
         return MapToDto(gw);
     }

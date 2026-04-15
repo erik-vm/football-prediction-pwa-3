@@ -53,7 +53,7 @@ public class MatchService : IMatchService
             GameWeekId = request.GameWeekId,
             HomeTeam = request.HomeTeam,
             AwayTeam = request.AwayTeam,
-            KickoffTime = request.KickoffTime,
+            KickoffTime = DateTime.SpecifyKind(request.KickoffTime, DateTimeKind.Utc),
             Stage = request.Stage
         };
 
@@ -70,7 +70,7 @@ public class MatchService : IMatchService
 
         match.HomeTeam = request.HomeTeam;
         match.AwayTeam = request.AwayTeam;
-        match.KickoffTime = request.KickoffTime;
+        match.KickoffTime = DateTime.SpecifyKind(request.KickoffTime, DateTimeKind.Utc);
         match.Stage = request.Stage;
 
         await _matches.UpdateAsync(match);
@@ -113,6 +113,9 @@ public class MatchService : IMatchService
 
         foreach (var ext in externalMatches)
         {
+            if (ext.KickoffTime < gameWeek.StartDate || ext.KickoffTime > gameWeek.EndDate)
+                continue;
+
             if (await _matches.GetByExternalIdAsync(ext.ExternalId) != null)
                 continue;
 

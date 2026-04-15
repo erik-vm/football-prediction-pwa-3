@@ -32,7 +32,9 @@ public class FootballDataClient : IFootballDataClient
             PropertyNameCaseInsensitive = true
         });
 
-        return root?.Matches?.Select(MapToDto).ToList() ?? [];
+        return root?.Matches?
+            .Where(m => m.HomeTeam?.Id != null && m.AwayTeam?.Id != null)
+            .Select(MapToDto).ToList() ?? [];
     }
 
     private static ExternalMatchDto MapToDto(FootballDataMatch m)
@@ -49,7 +51,7 @@ public class FootballDataClient : IFootballDataClient
         }
 
         return new ExternalMatchDto(
-            m.Id.ToString(),
+            m.Id!.Value.ToString(),
             m.HomeTeam?.ShortName ?? m.HomeTeam?.Name ?? "Unknown",
             m.AwayTeam?.ShortName ?? m.AwayTeam?.Name ?? "Unknown",
             m.HomeTeam?.Crest,
@@ -82,7 +84,7 @@ internal class FootballDataResponse
 
 internal class FootballDataMatch
 {
-    public int Id { get; set; }
+    public long? Id { get; set; }
     public DateTime UtcDate { get; set; }
     public string? Status { get; set; }
     public string? Stage { get; set; }
@@ -93,7 +95,7 @@ internal class FootballDataMatch
 
 internal class FootballDataTeam
 {
-    public int Id { get; set; }
+    public long? Id { get; set; }
     public string? Name { get; set; }
     public string? ShortName { get; set; }
     public string? Crest { get; set; }

@@ -36,8 +36,8 @@ public class TournamentService : ITournamentService
             Name = request.Name,
             Season = request.Season,
             ExternalId = request.ExternalId,
-            StartDate = request.StartDate,
-            EndDate = request.EndDate,
+            StartDate = DateTime.SpecifyKind(request.StartDate, DateTimeKind.Utc),
+            EndDate = DateTime.SpecifyKind(request.EndDate, DateTimeKind.Utc),
             IsActive = request.IsActive
         };
 
@@ -55,8 +55,8 @@ public class TournamentService : ITournamentService
         tournament.Name = request.Name;
         tournament.Season = request.Season;
         tournament.ExternalId = request.ExternalId;
-        tournament.StartDate = request.StartDate;
-        tournament.EndDate = request.EndDate;
+        tournament.StartDate = DateTime.SpecifyKind(request.StartDate, DateTimeKind.Utc);
+        tournament.EndDate = DateTime.SpecifyKind(request.EndDate, DateTimeKind.Utc);
         tournament.IsActive = request.IsActive;
 
         await _repo.UpdateAsync(tournament);
