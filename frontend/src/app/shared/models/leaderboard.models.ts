@@ -1,0 +1,4 @@
+export interface LeaderboardEntry { rank: number; userId: string; username: string; totalPoints: number; totalBonusPoints: number; predictionsCount: number; exactScores: number; winnerPlusDiff: number; correctWinners: number; oneScoreCorrect: number; misses: number; }
+export interface WeeklyLeaderboardEntry { rank: number; userId: string; username: string; weeklyPoints: number; bonusPoints: number; }
+export interface UserStats { userId: string; username: string; overallRank: number; totalPoints: number; totalBonusPoints: number; predictionsCount: number; exactScores: number; winnerPlusDiff: number; correctWinners: number; oneScoreCorrect: number; misses: number; weeklyHistory: WeeklyPoints[]; }
+export interface WeeklyPoints { gameWeekId: string; gameWeekName: string; points: number; bonusPoints: number; }
