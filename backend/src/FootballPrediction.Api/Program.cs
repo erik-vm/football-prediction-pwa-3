@@ -18,9 +18,10 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // --- Connection string (handles Render's postgres:// URI) ---
-var connStr = builder.Configuration.GetConnectionString("Default")
-    ?? Environment.GetEnvironmentVariable("DATABASE_URL")
+// Env vars take priority over appsettings.json so production DATABASE_URL wins
+var connStr = Environment.GetEnvironmentVariable("DATABASE_URL")
     ?? Environment.GetEnvironmentVariable("POSTGRES_URL")
+    ?? builder.Configuration.GetConnectionString("Default")
     ?? "Host=localhost;Port=5433;Database=footballprediction;Username=postgres;Password=postgres";
 
 if (connStr.StartsWith("postgres://") || connStr.StartsWith("postgresql://"))
