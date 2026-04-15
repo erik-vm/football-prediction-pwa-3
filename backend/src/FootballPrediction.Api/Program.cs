@@ -26,10 +26,18 @@ var connStr = Environment.GetEnvironmentVariable("DATABASE_URL")
 
 if (connStr.StartsWith("postgres://") || connStr.StartsWith("postgresql://"))
 {
-    var uri = new Uri(connStr.Replace("postgres://", "https://").Replace("postgresql://", "https://"));
-    var userInfo = uri.UserInfo.Split(':');
-    var port = uri.Port > 0 ? uri.Port : 5432;
-    connStr = $"Host={uri.Host};Port={port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
+    // Parse manually — using Uri with https:// scheme incorrectly assigns port 443
+    var raw = connStr[(connStr.IndexOf("://") + 3)..];
+    var atIdx = raw.IndexOf('@');
+    var credentials = raw[..atIdx].Split(':', 2);
+    var hostDb = raw[(atIdx + 1)..];
+    var slashIdx = hostDb.IndexOf('/');
+    var hostPort = hostDb[..slashIdx];
+    var database = hostDb[(slashIdx + 1)..].Split('?')[0];
+    var colonIdx = hostPort.IndexOf(':');
+    var host = colonIdx >= 0 ? hostPort[..colonIdx] : hostPort;
+    var port = colonIdx >= 0 ? int.Parse(hostPort[(colonIdx + 1)..]) : 5432;
+    connStr = $"Host={host};Port={port};Database={database};Username={Uri.UnescapeDataString(credentials[0])};Password={Uri.UnescapeDataString(credentials[1])};SSL Mode=Require;Trust Server Certificate=true";
 }
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connStr));
