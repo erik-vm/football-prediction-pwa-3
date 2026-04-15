@@ -58,6 +58,13 @@ public class MatchRepository : IMatchRepository
         return match;
     }
 
+    public async Task DeleteByGameWeekIdAsync(Guid gameWeekId)
+    {
+        var matches = await _context.Matches.Where(m => m.GameWeekId == gameWeekId).ToListAsync();
+        _context.Matches.RemoveRange(matches);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<bool> AllFinishedInGameWeekAsync(Guid gameWeekId) =>
         await _context.Matches
             .Where(m => m.GameWeekId == gameWeekId)

@@ -10,5 +10,6 @@ public interface IMatchRepository
     Task<Match?> GetByExternalIdAsync(string externalId);
     Task<Match> AddAsync(Match match);
     Task<Match> UpdateAsync(Match match);
+    Task DeleteByGameWeekIdAsync(Guid gameWeekId);
     Task<bool> AllFinishedInGameWeekAsync(Guid gameWeekId);
 }

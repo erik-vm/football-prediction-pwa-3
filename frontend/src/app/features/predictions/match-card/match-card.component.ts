@@ -62,10 +62,12 @@ import { PredictionFormComponent } from '../prediction-form/prediction-form.comp
       }
 
       @if (isOpen()) {
-        <app-prediction-form
-          #predForm
-          [submitLabel]="prediction() ? 'Update' : 'Save'"
-          (submitted)="onFormSubmit($event)" />
+        <div (click)="$event.stopPropagation()">
+          <app-prediction-form
+            #predForm
+            [submitLabel]="prediction() ? 'Update' : 'Save'"
+            (submitted)="onFormSubmit($event)" />
+        </div>
       }
     </div>
   `

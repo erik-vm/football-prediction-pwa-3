@@ -68,6 +68,9 @@ public class FootballDataClient : IFootballDataClient
     {
         "GROUP_STAGE" => TournamentStage.GroupStage,
         "LEAGUE_PHASE" => TournamentStage.GroupStage,
+        "LEAGUE_STAGE" => TournamentStage.GroupStage,
+        "PLAYOFFS" => TournamentStage.RoundOf16,
+        "PLAYOFF_ROUND_ONE" => TournamentStage.RoundOf16,
         "ROUND_OF_16" => TournamentStage.RoundOf16,
         "LAST_16" => TournamentStage.RoundOf16,
         "QUARTER_FINALS" => TournamentStage.QuarterFinals,

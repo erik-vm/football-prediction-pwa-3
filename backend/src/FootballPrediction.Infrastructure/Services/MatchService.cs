@@ -141,6 +141,9 @@ public class MatchService : IMatchService
         return imported;
     }
 
+    public async Task DeleteByGameWeekIdAsync(Guid gameWeekId) =>
+        await _matches.DeleteByGameWeekIdAsync(gameWeekId);
+
     private static MatchDto MapToDto(Match m) => new(
         m.Id,
         m.GameWeekId,

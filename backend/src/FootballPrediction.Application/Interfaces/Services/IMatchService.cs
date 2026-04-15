@@ -11,4 +11,5 @@ public interface IMatchService
     Task<MatchDto> UpdateAsync(Guid id, UpdateMatchRequest request);
     Task<MatchDto> EnterResultAsync(Guid id, EnterResultRequest request);
     Task<int> ImportFromApiAsync(Guid gameWeekId);
+    Task DeleteByGameWeekIdAsync(Guid gameWeekId);
 }

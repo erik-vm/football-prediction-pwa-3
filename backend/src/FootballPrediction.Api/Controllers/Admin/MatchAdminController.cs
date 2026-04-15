@@ -47,6 +47,13 @@ public class MatchAdminController : ControllerBase
         catch (KeyNotFoundException) { return NotFound(); }
     }
 
+    [HttpDelete("gameweek/{gameWeekId}")]
+    public async Task<IActionResult> DeleteByGameWeek(Guid gameWeekId)
+    {
+        await _matches.DeleteByGameWeekIdAsync(gameWeekId);
+        return NoContent();
+    }
+
     [HttpPost("gameweek/{gameWeekId}/import")]
     public async Task<IActionResult> Import(Guid gameWeekId)
     {
